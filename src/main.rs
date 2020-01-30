@@ -14,7 +14,6 @@ struct App {
     todo: Vec<String>,
     on_add: Callback<ClickEvent>,
     on_change: Callback<InputData>,
-    on_remove: Callback<usize>,
     link: ComponentLink<Self>
 }
 
@@ -34,7 +33,6 @@ impl Component for App {
             todo: vec![],
             on_add: link.callback(|_| Msg::Add),
             on_change: link.callback(|e: InputData| Msg::Change(e.value)),
-            on_remove: link.callback(|i: usize | Msg::Remove(i)),
             link
         }
     }
