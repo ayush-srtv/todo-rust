@@ -6,19 +6,22 @@ use yew::{
     ComponentLink, 
     Html, 
     ShouldRender,
-    InputData
+    InputData,
 };
 
 struct App {
     text: String,
     todo: Vec<String>,
     on_add: Callback<ClickEvent>,
-    on_change: Callback<InputData>
+    on_change: Callback<InputData>,
+    on_remove: Callback<usize>,
+    link: ComponentLink<Self>
 }
 
 enum Msg {
     Add,
-    Change(String)
+    Change(String),
+    Remove(usize)
 }
 
 impl Component for App {
@@ -30,7 +33,9 @@ impl Component for App {
             text: "".to_string(),
             todo: vec![],
             on_add: link.callback(|_| Msg::Add),
-            on_change: link.callback(|e: InputData| Msg::Change(e.value))
+            on_change: link.callback(|e: InputData| Msg::Change(e.value)),
+            on_remove: link.callback(|i: usize | Msg::Remove(i)),
+            link
         }
     }
 
@@ -46,6 +51,10 @@ impl Component for App {
                 self.text = val;
                 true // Indicate that the Component should re-render
             },
+            Msg::Remove(i) => {
+                self.todo.remove(i);
+                true
+            }
 
         }
     }
@@ -56,6 +65,7 @@ impl Component for App {
             html!{
                 <li>
                 {format!("{} ", &item)}
+                <button onclick=self.link.callback(move |_| Msg::Remove(i))>{"x"}</button>
                 </li>
             }
         };
