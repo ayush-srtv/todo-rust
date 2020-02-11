@@ -61,7 +61,7 @@ impl Component for App {
         
         let list_item = |(i, item): (usize, &String)| {
             html!{
-                <li>
+                <li class="item">
                 {format!("{} ", &item)}
                 <button onclick=self.link.callback(move |_| Msg::Remove(i))>{"x"}</button>
                 </li>
@@ -72,7 +72,7 @@ impl Component for App {
             <>
             <input oninput=&self.on_change value=&self.text />
             <button onclick=&self.on_add>{ "Add" }</button>
-            <ul>
+            <ul class="list">
                 {for self.todo.iter().enumerate().map(list_item)}
             </ul>
             </>
