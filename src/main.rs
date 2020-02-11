@@ -41,6 +41,9 @@ impl Component for App {
         match msg {
             Msg::Add => {
                 let text = self.text.clone();
+                if text.len() == 0 {
+                    return false;
+                }
                 self.text = "".to_string();
                 self.todo.push(text);
                 true // Indicate that the Component should re-render
